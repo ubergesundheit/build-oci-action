@@ -23,6 +23,10 @@ inputs:
     description: path to build context (default .)
     default: "."
     required: false
+  build_target:
+    description: sets the target stage to build
+    default: ""
+    required: false
   push_to_registry:
     description: push to container registry (true/false)
     required: true
@@ -74,3 +78,4 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         file: ${{ inputs.dockerfile_path }}
+        target: ${{ inputs.build_target }}

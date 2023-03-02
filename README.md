@@ -4,7 +4,7 @@ GitHub composite action for building container images the bCyber way
 
 ## Inputs
 
-See `action,yml` for up to date documentation.
+See `action.yml` for up to date documentation.
 
 ```yaml
 inputs:
@@ -28,6 +28,10 @@ inputs:
   build_context:
     description: path to build context (default .)
     default: "."
+    required: false
+  build_target:
+    description: sets the target stage to build
+    default: ""
     required: false
   push_to_registry:
     description: push to container registry (true/false)
