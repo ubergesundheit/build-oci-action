@@ -25,6 +25,10 @@ inputs:
     description: path to Dockerfile (default ./Dockerfile)
     default: "./Dockerfile"
     required: false
+  build_args:
+    description: build args
+    default: "build args to be supplied to the build. Specify as list of newline delimited KEY=VALUE tuples"
+    required: false
   build_context:
     description: path to build context (default .)
     default: "."
@@ -47,6 +51,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - v**
   pull_request:
     branches:
       - main
@@ -54,7 +60,11 @@ on:
 jobs:
   build-container:
     name: Build container image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    # required when using GitHub registry
+    permissions:
+      packages: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

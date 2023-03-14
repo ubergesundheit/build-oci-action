@@ -19,6 +19,10 @@ inputs:
     description: path to Dockerfile (default ./Dockerfile)
     default: "./Dockerfile"
     required: false
+  build_args:
+    description: build args
+    default: "build args to be supplied to the build. Specify as list of newline delimited KEY=VALUE tuples"
+    required: false
   build_context:
     description: path to build context (default .)
     default: "."
@@ -70,7 +74,7 @@ runs:
           type=ref,event=pr
 
     - name: Build and push container image
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v4
       with:
         builder: ${{ steps.buildx.outputs.name }}
         context: ${{ inputs.build_context }}
@@ -79,3 +83,6 @@ runs:
         labels: ${{ steps.meta.outputs.labels }}
         file: ${{ inputs.dockerfile_path }}
         target: ${{ inputs.build_target }}
+        build-args: ${{ inputs.build_args }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
